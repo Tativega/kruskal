@@ -88,7 +88,6 @@ void kruskal(rama *arbol)
 
     for (int i = 0; i < VERTICES; i++)
     {
-
         inicial(i, i, &conjunto);
     }
 
