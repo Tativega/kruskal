@@ -1,51 +1,52 @@
 # kruskal
 
-1. **RESERVO ESPACIO EN MEMORIA PARA LA MATRIZ DE ADYACENCIA**
+## Kruskal's algorithm for the final programming exam.
 
-- (**) malloc sizeof(int*)* VERTICES (filas)
-- (*) malloc sizeof(int) * VERTICES (columnas, dentro de un for)
+1. **ALLOCATE SPACE IN MEMORY FOR THE ADJACENCY MATRIX**
 
-2. **CARGA DE PESOS DE ARISTAS**
-- bucle anidado.
+- (**) malloc sizeof(int*)* VERTICES (rows)
+- (*) malloc sizeof(int) * VERTICES (columns, within a for loop)
+
+2. **LOAD EDGE WEIGHTS**
+- nested loop.
 - i = 0;
 - j = i + 1;
 
-3. **RECORRO LA MATRIZ Y LLAMO A LA FUNCION ***INSERTA*** EN CADA ELEMENTO**
-inserta genera la cola de prioridad (lista enlazada) donde cada nodo tiene:
+3. **GO THROUGH THE MATRIX AND CALL THE ***INSERT*** FUNCTION FOR EACH ELEMENT**
+Insert generates the priority queue (linked list) where each node has:
+edge.u
+edge.v
+edge.cost
+pointer to the next node
 
-arista.u
-arista.v
-arista.costo
-puntero al nodo siguiente
+- branch *tree = *NULL*;
+- **INSERT(i, j, matrix[i][j], &tree)** function:
+(i, j) is an edge
+matrix[i][j] is the COST of the edge (i, j);
 
-- rama *arbol = *NULL*;
-- funcion **INSERTA(i, j, matriz[i][j], &arbol)**:
-(i, j) es una arista
-matriz[i][j] es el COSTO de la arista (i, j);
+4. **KRUSKAL FUNCTION CALL**
+- Go through the Vs and call the **INITIAL(v, v, SET_CE)** function to initialize the SET_UF
+- SET_UF has:
+- - NAME array [{name, next}, ..., {name, next}]
+- - HEADER array [{count, first_elem},..., {count, first_elem}]
 
-4. **LLAMADA FUNCION KRUSKAL**
-- recorro los V y llamo a la funcion **INICIAL(v, v, CONJUNTO_CE)** para inicializar el CONJUNTO_CE
-- CONJUNTO_CE tiene:
-- - arreglo NOMBRE [{nombre, siguiente}, ..., {nombre, siguiente}]
-- - arreglo ENCABEZADO [{cuenta, primer_elem},..., {cuenta, primer_elem}]
+- in initialization, name is the vertex and next is 0.
+- count is 1 and first element is the vertex
 
-- en la inicializacion, nombre es el vertice y siguiente es 0.
-- cuenta es 1 y primer elemento es el vertice
+- I call the function **EXTRACT_MIN(**node)**
+- - extract_min receives the address of the linked list (the first element)
+- - if it is not NULL, it returns the edge and then makes the node value equal to node.next
 
-- llamo a la funcion **SACAR_MIN(**nodo)**
-- - sacar min recibe la direccion de la lista enlazada (el primer elemento)
-- - si no es NULL, retorna la arista y despues hace que el valor nodo sea igual a nodo.siguiente
+- **EXTRACT_MIN()** returns an edge A
+- Call the **FIND()** function with the value of A.u and A.v to know which component each vertex of the edge belongs to
+- - comp_u = find(A.u)
+- - comp_v = find(A.v)
+- if comp_u != comp_v it means that they belong to different sets and it can be added to the tree T
+- call the **COMBINE()** function to update the SET_UF
+- call the **INSERT()** function to add that edge to the solution tree (it's another linked list)
 
-- **SACAR_MIN()** retorno una arista A
-- llamo a la funcion **ENCUENTRA()** con el valor de A.u y A.v para saber a que componente pertenece cada vertice de la arista
-- - comp_u = encuentra(A.u)
-- - comp_v = encuentra(A.v)
-- si comp_u != comp_v quiere decir que pertenecen a conjuntos diferentes y puedo agregarla al arbol T
-- llamar a la funcion **COMBINA()** para actualizar el CONJUNTO_CE
-- llamar a la funcion **INSERTA()** para agregar esa arista al arbol solucion (es otra lista enlazada) (es necesario??)
+- finally, call the **LIST()** function that is going to be called recursively over the linked list, listing the edge and its cost.
 
-- por ultimo se llama a la funcion **LISTA()** que se va a llamar recursivamente sobre la lista enlazada, listando la arista y su costo.
-
-5. liberar los bloques de memoria que se hayan pedido con malloc
+5. Free the memory blocks that have been requested with malloc.
 
 
