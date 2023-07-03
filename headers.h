@@ -1,42 +1,42 @@
 #define VERTICES 6
 
-typedef struct _ARISTA
+typedef struct _EDGE
 {
     int u;
     int v;
-    int costo;
-} arista;
+    int cost;
+} edge;
 
-typedef struct _RAMA
+typedef struct _BRANCH
 {
-    arista A;
-    struct _RAMA *sig;
-} rama;
+    edge E;
+    struct _BRANCH *next;
+} branch;
 
-typedef struct _ENCABEZADO
+typedef struct _HEADER
 {
-    int cuenta;
-    int primer_elemento;
-} encabezado;
+    int count;
+    int first_element;
+} header;
 
-typedef struct _NOMBRE
+typedef struct _NAME
 {
-    int nombre_conjunto;
-    int siguiente_elemento;
-} nombre;
+    int set_name;
+    int next_element;
+} name;
 
-typedef struct _CONJUNTO_CE
+typedef struct _SET_UF
 {
-    nombre nombres[VERTICES];
-    encabezado encabezamientos_conjunto[VERTICES];
-} conjunto_CE;
+    name names[VERTICES];
+    header set_headers[VERTICES];
+} set_uf;
 
-void inicial(int, int, conjunto_CE *);
-void combina(int, int, conjunto_CE *);
-int encuentra(int, conjunto_CE *);
-void kruskal(rama *);
-void inserta(int, int, int, rama **);
-arista *sacar_min(rama **);
-void lista(rama *);
+void initial(int, int, set_uf *);
+void combine(int, int, set_uf *);
+int find(int, set_uf *);
+void kruskal(branch *);
+void insert(int, int, int, branch **);
+edge *extract_min(branch **);
+void list(branch *);
 
-void freeQueue(rama *);
+void freeQueue(branch *);
