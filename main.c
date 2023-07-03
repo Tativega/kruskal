@@ -7,8 +7,8 @@
 
 int main()
 {
-    // MATRIZ DE PRUEBA
-    // int COSTOS[VERTICES][VERTICES] = {
+    // TEST MATRIX
+    // int COSTS[VERTICES][VERTICES] = {
     //     {0, 3, 7, 6, 1, 2},
     //     {3, 0, 5, 4, 8, 9},
     //     {7, 5, 0, 2, 6, 0},
@@ -16,37 +16,37 @@ int main()
     //     {1, 8, 6, 7, 0, 5},
     //     {2, 9, 0, 3, 5, 0}};
 
-    int COSTOS[VERTICES][VERTICES] = {0};
-    rama *arbol = NULL;
+    int COSTS[VERTICES][VERTICES] = {0};
+    branch *tree = NULL;
 
-    // carga matriz de adyacencia con pesos
+    // loads adjacency matrix with weights
     for (int i = 0; i < VERTICES; i++)
     {
         for (int j = i + 1; j < VERTICES; j++)
         {
-            printf("Ingrese el costo entre los vertices %i y %i\n", i, j);
-            scanf("%i", &COSTOS[i][j]);
+            printf("Enter the cost between vertices %i and %i\n", i, j);
+            scanf("%i", &COSTS[i][j]);
         }
     }
 
-    // RECORRE LA MATRIZ PARA GENERAR LA COLA DE PRIORIDAD
+    // TRAVERSES THE MATRIX TO GENERATE THE PRIORITY QUEUE
     for (int i = 0; i < VERTICES; i++)
     {
         for (int j = i + 1; j < VERTICES; j++)
         {
-            int costo = COSTOS[i][j];
+            int cost = COSTS[i][j];
 
-            if (costo > 0)
+            if (cost > 0)
             {
-                inserta(i, j, costo, &arbol);
+                insert(i, j, cost, &tree);
             }
         }
     }
 
-    kruskal(arbol);
+    kruskal(tree);
 
-    // liberar memoria cola prioridad
-    freeQueue(arbol);
+    // free priority queue memory
+    freeQueue(tree);
 
     return 0;
 }
