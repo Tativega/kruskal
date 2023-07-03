@@ -1,25 +1,24 @@
+// INSERTA UN NODO EN LA COLA DE PRIORIDAD
 void inserta(int u, int v, int costo, rama **nodo)
 {
-    if (*nodo == NULL) // si arbol todavia no apunta a nada esta vacio, cargo el primer nodo
+    if (*nodo == NULL) // si arbol todavia no apunta a nada esta vacio, carga el primer nodo
     {
         *nodo = (rama *)malloc(sizeof(rama));
         (*nodo)->A.u = u;
         (*nodo)->A.v = v;
         (*nodo)->A.costo = costo;
-        (*nodo)->sig = NULL; // es el ultimo elemento de la lista
+        (*nodo)->sig = NULL;
     }
     else
-    { // el arbol no esta vacio, tengo que crear un nodo nuevo
-
-        // ahora queda determinar donde pongo el nodo ya que tienen que estar ordenados por costo
+    { // el arbol no esta vacio, tengo que crear un nodo nuevo y ubicarlo en segun su costo
         if (costo < (*nodo)->A.costo)
-        { // el primer elemento siempre va a ser el mas chico
+        {
             rama *nuevo_nodo = (rama *)malloc(sizeof(rama));
             nuevo_nodo->A.u = u;
             nuevo_nodo->A.v = v;
             nuevo_nodo->A.costo = costo;
             nuevo_nodo->sig = *nodo;
-            *nodo = nuevo_nodo; // el primer elemento pasa a ser nuevo_nodo
+            *nodo = nuevo_nodo;
         }
         else
         {
@@ -28,6 +27,7 @@ void inserta(int u, int v, int costo, rama **nodo)
     }
 }
 
+// CARGA INICIAL DE CONJUNTO COMBINA-ENCUENTRA
 void inicial(int nombre, int elemento, conjunto_CE *C)
 {
     C->nombres[elemento].nombre_conjunto = nombre;
@@ -36,6 +36,7 @@ void inicial(int nombre, int elemento, conjunto_CE *C)
     C->encabezamientos_conjunto[nombre].primer_elemento = elemento;
 }
 
+// RETORNA LA ARISTA DE MENOR COSTO
 arista *sacar_min(rama **a)
 {
     arista *head = &((*a)->A);
@@ -44,11 +45,13 @@ arista *sacar_min(rama **a)
     return head;
 }
 
+// RETORNA EL NOMBRE DEL CONJUNTO AL QUE PERTENECE UN NODO
 int encuentra(int nombre, conjunto_CE *conjunto)
 {
     return conjunto->nombres[nombre].nombre_conjunto;
 }
 
+// COMBINA DOS CONJUNTOS DISJUNTOS
 void combina(int A, int B, conjunto_CE *C)
 {
     int bigger_set = C->encabezamientos_conjunto[A].cuenta > C->encabezamientos_conjunto[B].cuenta ? A : B;
@@ -67,17 +70,18 @@ void combina(int A, int B, conjunto_CE *C)
     C->encabezamientos_conjunto[bigger_set].cuenta += C->encabezamientos_conjunto[smaller_set].cuenta;
 }
 
+// IMPRIME EL ARBOL DE EXPANSION MINIMO
 void lista(rama *arbol)
 {
     if (arbol != NULL)
     {
-
         printf("Arista %i, %i. Costo %i\n", arbol->A.u, arbol->A.v, arbol->A.costo);
 
         lista(arbol->sig);
     }
 }
 
+// ALGORITMO DE KRUSKAL
 void kruskal(rama *arbol)
 {
     conjunto_CE conjunto;
@@ -110,6 +114,7 @@ void kruskal(rama *arbol)
     freeQueue(arbol_min);
 }
 
+// LIBERA LA MEMORIA SOLICITADA PARA LA COLA DE PRIORIDAD
 void freeQueue(rama *head)
 {
     rama *temp;
